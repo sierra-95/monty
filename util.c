@@ -1,42 +1,27 @@
+#include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 #include "monty.h"
 
 /**
- * is_digit - checks if a string is a digit
- * @string: string to check
+ * _add -  adds the first two nodes of the stack
+ * @stack: stack given by main
+ * @line_cnt: line counter
  *
- * Return: 1 if success, 0 if not
+ * Return: void
  */
-int is_digit(char *string)
+void _add(stack_t **stack, unsigned int line_cnt)
 {
-	if (!string || *string == '\0')
-		return (0);
-	if (*string == '-')
-		string++;
-	while (*string)
+	int result;
+
+	if (!stack || !*stack || !((*stack)->next))
 	{
-		if (isdigit(*string) == 0)
-			return (0);
-		string++;
+		fprintf(stderr, "L%d: can't add, stack too short\n", line_cnt);
+		exit(EXIT_FAILURE);
 	}
-	return (1);
-}
-/**
- * isnumber - checks if a string is a number
- * @str: provided string
- *
- * Return: 1 if the string is a number, else, 0.
- */
-int isnumber(char *str)
-{
-	int i;
 
-	if (!str)
-		return (0);
-
-	for (i = 0; str[i]; i++)
-		if (i < '0' || i > '9')
-			return (0);
-
-	return (1);
+	result = ((*stack)->next->n) + ((*stack)->n);
+	pop(stack, line_cnt); /*For top node*/
+	(*stack)->n = result;
 }
